@@ -1,8 +1,7 @@
-import classes from "./MeetupList.module.css";
 import MeetupItem from "./MeetupItem";
 import { MeetupItemProps } from "./MeetupItem";
 
-interface MeetupListProps {
+export interface MeetupListProps {
   meetups: MeetupItemProps[];
 }
 

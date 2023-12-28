@@ -1,31 +1,44 @@
 import MeetupList from "../components/meetups/MeetupList";
-
-const DUMMY_DATA = [
-  {
-    id: "m1",
-    title: "This is a first meetup",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/2560px-Stadtbild_M%C3%BCnchen.jpg",
-    address: "Meetupstreet 5, 12345 Meetup City",
-    description:
-      "This is a first, amazing meetup which you definitely should not miss. It will be a lot of fun!",
-  },
-  {
-    id: "m2",
-    title: "This is a second meetup",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/2560px-Stadtbild_M%C3%BCnchen.jpg",
-    address: "Meetupstreet 5, 12345 Meetup City",
-    description:
-      "This is a first, amazing meetup which you definitely should not miss. It will be a lot of fun!",
-  },
-];
+import { useState, useEffect } from "react";
+import { MeetupItemProps } from "../components/meetups/MeetupItem";
 
 const AllMeetupPage = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadedMeetups, setLoadedMeetups] = useState<MeetupItemProps[]>([]);
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetch("api")
+      .then((resp) => {
+        return resp.json();
+      })
+      .then((data) => {
+        const meetups: MeetupItemProps[] = [];
+        for (const key in data) {
+          const meetup = {
+            id: key,
+            ...data[key],
+          };
+          meetups.push(meetup);
+        }
+        setIsLoading(false);
+        setLoadedMeetups(meetups);
+        console.log(meetups);
+      });
+  }, []);
+
+  if (isLoading) {
+    return (
+      <section>
+        <p>로딩...</p>
+      </section>
+    );
+  }
+
   return (
     <section>
       <h1>All Meetups</h1>
-      <MeetupList meetups={DUMMY_DATA}></MeetupList>
+      <MeetupList meetups={loadedMeetups}></MeetupList>
     </section>
   );
 };
