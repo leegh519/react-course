@@ -2,11 +2,11 @@ import React from "react";
 import classes from "./Layout.module.css";
 import MainNavigation from "./MainNavigation";
 
-interface LayoutProps {
+export interface ReactChildren {
   children: React.ReactNode;
 }
 
-const Layout = (props: LayoutProps) => {
+const Layout = (props: ReactChildren) => {
   return (
     <div>
       <MainNavigation />

@@ -1,5 +1,7 @@
 import classes from "./MeetupItem.module.css";
 import Card from "../ui/Card";
+import { useContext } from "react";
+import FavoriteContext from "../../store/favorite-context";
 
 export interface MeetupItemProps {
   id: string;
@@ -10,6 +12,18 @@ export interface MeetupItemProps {
 }
 
 const MeetupItem = (props: MeetupItemProps) => {
+  const favoriteCtx = useContext(FavoriteContext);
+
+  const isFavorite = favoriteCtx.itemIsFavorite(props.id);
+
+  function toggleFavorite() {
+    if (isFavorite) {
+      favoriteCtx.removeFavorite(props.id);
+    } else {
+      favoriteCtx.addFavorite(props);
+    }
+  }
+
   return (
     <li className={classes.item}>
       <Card>
@@ -22,7 +36,9 @@ const MeetupItem = (props: MeetupItemProps) => {
           <p>{props.description}</p>
         </div>
         <div className={classes.actions}>
-          <button>좋아요!</button>
+          <button onClick={toggleFavorite}>
+            {isFavorite ? "좋아요 취소" : "좋아요!"}
+          </button>
         </div>
       </Card>
     </li>

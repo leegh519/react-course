@@ -8,7 +8,9 @@ const AllMeetupPage = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    fetch("api")
+    fetch(
+      "https://flutter-firebase-5427f-default-rtdb.firebaseio.com/meetup.json"
+    )
       .then((resp) => {
         return resp.json();
       })

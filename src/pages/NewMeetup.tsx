@@ -5,11 +5,14 @@ const NewMeetupPage = () => {
   const history = useHistory();
 
   function addMeetupHandler(meetupData: MeetupData) {
-    fetch("api", {
-      method: "POST",
-      body: JSON.stringify(meetupData),
-      headers: { "Content-Type": "application/json" },
-    }).then(() => {
+    fetch(
+      "https://flutter-firebase-5427f-default-rtdb.firebaseio.com/meetup.json",
+      {
+        method: "POST",
+        body: JSON.stringify(meetupData),
+        headers: { "Content-Type": "application/json" },
+      }
+    ).then(() => {
       history.replace("/");
     });
   }
